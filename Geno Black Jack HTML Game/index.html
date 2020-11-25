@@ -10,20 +10,18 @@
     <title>Black Jack</title>
 </head>
 <body>
+
+    
     <h1 style="font-weight: 600; font-size: 100px;">BlackJack</h1>
-    <div id="container" class="container-box"><button id="deal" onclick=
-    "frontEndCards()">Deal Cards</button>
-    <div id="instructions"><h2>Instructions</h2><p>You and your opponents both draw 2 cards and the objective of the game is to either reach 21 or to get a total bigger than his without going bust over 21.You get to start first and one of the dealer's card will not be shown, you will get to see his card after you stand.If your opponent goes bust over 21 you win as well.</p></div>
-        <button id="draw" class="buttonbox" onclick="hitCard()" style="display: none;">Hit</button>
-        <button id="stand" class="buttonbox" onclick="stand()" style="display: none;">Stand</button>
-        
-        
-    </div>
-    <div id="foreplay"> <button id="replay" class="buttonbox" onclick="replay()" style="display: none;">Replay</button></div>
-    <div id="mycards" class="mycards"><div id="myresult" class="cardsinfo" style="display: none;"></div></div>
-    <div id="hiscards" class="hiscards"><div id="hisresult" class="cardsinfo"></div></div>
+    <div id="container" class="container-box">
+        <form>
+            <button onclick="location.href='main.html'" type="button">
+                Play Game</button>
+          </form>
+       
     
-    
+    <div id="instructions"><h2>Instructions</h2><p>You and your opponent both draw 2 cards and the objective of the game is to either reach 21 or to get a total bigger than his without going bust over 21.You get to start first and one of the dealer's card will not be shown, you will get to see his card after you stand.If your opponent goes bust over 21 you win as well.</p></div>
+        
 </body>
 <script src="javascript.js"></script>
 </html>

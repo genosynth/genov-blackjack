@@ -1,14 +1,14 @@
-let deckOfCards = ["AH", "AD", "AS", "AC", "2H", "2D", "2S", "2C", "3H", "3D", "3S", "3C", "4H", "4D", "4S", "4C",
-                    "5H", "5D", "5S", "5C", "6H", "6D", "6S", "6C", "7H", "7D", "7S", "7C", "8H", "8D", "8S", "8C",
-                    "9H", "9D", "9S", "9C", "10H", "10D", "10S", "10C", "JH", "JD", "JS", "JC", "QH", "QD", "QS", "QC",
-                    "KH", "KD", "KS", "KC"]
-
+let wins = 0;
+let draws = 0;
+let losses = 0;
 let remainingCards =[]; //remainingCards is always being updated when specific cards are drawn
 let showCard = false;
 let myCards = [];
 let myTotal;
 let hisTotal;
 let hisCards = [];
+let deal = true;
+let hit,standAct = false;
 var cardDatabase = {
     "AH": "./Pictures/AceHearts.png",
     "AD": "./Pictures/AceDiamonds.png",
@@ -65,10 +65,10 @@ var cardDatabase = {
     }
   
 var cardValues = {
-    "AH": 1,
-    "AD": 1,
-    "AS": 1,
-    "AC": 1,
+    "AH": 11,
+    "AD": 11,
+    "AS": 11,
+    "AC": 11,
     "2H": 2,
     "2D": 2,
     "2S": 2,
@@ -121,65 +121,120 @@ var cardValues = {
 }
 function dealCards(){
     
+
+    deckOfCards = Object.keys(cardValues); //creates an array with all cards 
     //myCard1
     let num = Math.floor(Math.random()*52);
-    let myCard1 = deckOfCards[num];
+    
+    let myCard1 = deckOfCards[num]; 
+    
+    //console.log(myCard1);
     delete deckOfCards[num];
-    const deckFiltered = deckOfCards.filter(el => {
+    //console.log(deckOfCards);
+    deckOfCards = deckOfCards.filter(el => {
         return el != null && el != '';
       });
-      //console.log(deckFiltered);
+      //console.log(deckOfCards);
     myCards.push(myCard1);
+    
     //myCard2
     num = Math.floor(Math.random()*51);
-    let myCard2 = deckFiltered[num];
-    delete deckFiltered[num];
+    let myCard2 = deckOfCards[num];
+    delete deckOfCards[num];
 
-    const deckFiltered1 = deckFiltered.filter(el => {
+    deckOfCards = deckOfCards.filter(el => {
         return el != null && el != '';
     });
         //console.log(deckFiltered1);
     myCards.push(myCard2);
+
     //hisCard1
     num = Math.floor(Math.random()*50);
-    let hisCard1 = deckFiltered1[num];
-    delete deckFiltered1[num];
-    const deckFiltered2 = deckFiltered1.filter(el => {
+    let hisCard1 = deckOfCards[num];
+    delete deckOfCards[num];
+    deckOfCards = deckOfCards.filter(el => {
         return el != null && el != '';
       });
       //console.log(deckFiltered2);
     hisCards.push(hisCard1);  
+
     //myCard2
     num = Math.floor(Math.random()*49);
-    let hisCard2 = deckFiltered2[num];
-    delete deckFiltered2[num];
+    let hisCard2 = deckOfCards[num];
+    delete deckOfCards[num];
 
-    const deckFiltered3 = deckFiltered2.filter(el => {
+    deckOfCards = deckOfCards.filter(el => {
         return el != null && el != '';
     });
         //console.log(deckFiltered3);
     hisCards.push(hisCard2);
-    remainingCards = deckFiltered3;
+    remainingCards = deckOfCards;
    
    
+    /* 
     console.log(myCard1);
     console.log(myCard2);
     console.log(hisCard1);
     console.log(hisCard2);
-    console.log(deckFiltered3)
     console.log(remainingCards);
-    
+    */
 }
+
+function checkMyAce(){
+
+    for (i=0; i<myCards.length; i++){
+        
+        
+        if (myCards[i].charAt(0) === 'A'){
+        //myAces = myAces + 1;
+        cardValues[myCards[i]] = 1;
+            
+        //myCards[i].charAt(0) = 'U'
+
+        console.log(cardValues[myCards[i]])
+                
+        }
+        /* if (myAces >= 2){
+            
+        }
+        */
+    }
+       
+}
+
+function checkHisAce(){
+
+    if (hisTotal>21){
+        let myAces = 0;
+        for (i=0; i<hisCards.length; i++){
+            
+            
+            if (hisCards[i].charAt(0) === 'A'){
+            
+            cardValues[hisCards[i]] = 1;
+                        
+
+            //console.log(cardValues[hisCards[i]])
+            
+            }
+            
+            
+        }
+    }   
+    calcValues();
+    showHisResults();
+}
+
 
 function calcValues(){
     let myValue = 0;
     for (i=0; i<myCards.length; i++){
-    
+        
         myValue = myValue + cardValues[myCards[i]];    
     }
-
+    
     myTotal = myValue;
-    console.log("Your Total is " + myTotal);
+    //console.log("Your Total is " + myTotal);
 
     let hisValue = 0;
     for (i=0; i<hisCards.length; i++){
@@ -187,103 +242,113 @@ function calcValues(){
 
     }
     hisTotal = hisValue;
-    console.log("His Total is " + hisTotal);
+    //console.log("His Total is " + hisTotal);
 
+   
     
 
 }
 
-   // var yourScore = rpsDatabase[yourChoice][computerChoice];
-   // var computerScore = rpsDatabase[computerChoice][yourChoice];
 
 function frontEndCards(){
-    document.getElementById("instructions").remove();   
-    for (let i=0; i<2; i++){  //Displaying my 2 Cards
-        var img = document.createElement("img"); 
-        
-        img.src = cardDatabase[myCards[i]]; 
-        var src = document.getElementById("mycards"); 
-        
-        src.appendChild(img); 
-    }
 
-    for (let i=0; i<1; i++){ //Displaying his 2 Cards
+    if (deal === true)  {  
+        hit = true;
+        standAct = true;
+        dealCards();
+        
+            
+        for (let i=0; i<2; i++){  //Displaying my 2 Cards
+            var img = document.createElement("img"); 
+            
+            img.src = cardDatabase[myCards[i]]; 
+            var src = document.getElementById("mycards"); 
+            
+            src.appendChild(img); 
+        }
+
+        for (let i=0; i<1; i++){ //Displaying his 2 Cards
+            var img = document.createElement("img");
+            img.src = cardDatabase[hisCards[i]];
+            var src = document.getElementById("hiscards");
+            src.appendChild(img);
+        }
+
         var img = document.createElement("img");
-        img.src = cardDatabase[hisCards[i]];
+        img.src = "./Pictures/BackCard.png";
         var src = document.getElementById("hiscards");
         src.appendChild(img);
-    }
-
-    var img = document.createElement("img");
-    img.src = "./Pictures/BackCard.png";
-    var src = document.getElementById("hiscards");
-    src.appendChild(img);
-    document.getElementById("deal").remove(); //removes the Deal button
-
-    var x = document.getElementById("draw"); //shows the Draw button
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-    x.style.display = "none";
-    
-    }
-    var y = document.getElementById("stand"); //shows the Stand button
-    if (y.style.display === "none") {
-        y.style.display = "block";
-    } else {
-    y.style.display = "none";
+        showMyResults();
+        deal = false;
+        calcValues();
+        if (myTotal === 21){
+            document.getElementById("container").innerHTML = "YOU GOT BLACKJACK" ;
+            standAct = true;
+            deal = false;
+            stand();
+            showScore();
+        }
     
     }
 
-    var z = document.getElementById("myresult"); //shows the User's Total
-    if (z.style.display === "none") {
-        z.style.display = "block";
-    } else {
-    z.style.display = "none";
-    
-    }
-
+   
 }
 
 
 function hitCard(){ //User hits a card
-    
-    let x = remainingCards.length;
-    let num = Math.floor(Math.random()*(x));
-    console.log(x);
-    
-    console.log(cardDatabase[remainingCards[num]]);
-    var img = document.createElement("img");
-    img.src = cardDatabase[remainingCards[num]];
-    var myCard3 = remainingCards[num];
-    delete remainingCards[num];
-    const remainingCards1 = remainingCards.filter(el => {
-        return el != null && el != '';
-      });
+    if (hit === true){   
+        let x = remainingCards.length;
+        let num = Math.floor(Math.random()*(x));
+        //console.log(x);
+        
+        //console.log(cardDatabase[remainingCards[num]]);
+        var img = document.createElement("img");
+        img.src = cardDatabase[remainingCards[num]];
+        var newCard = remainingCards[num];
+        delete remainingCards[num];
+        const remainingCards1 = remainingCards.filter(el => {
+            return el != null && el != '';
+        });
 
-    remainingCards = remainingCards1;
-    console.log(remainingCards);
-    var src = document.getElementById("mycards");
-    src.appendChild(img);
-    myCards.push(myCard3);
-    calcValues();
-    
-    if (myTotal >21){
-        document.getElementById("draw").remove();
-        document.getElementById("stand").remove();
-        document.getElementById("container").innerHTML = "YOU LOOSE" ;
-        showReplayButton();
-        revealCard();
-    }
-    if (myTotal === 21){
-        document.getElementById("draw").remove();
-        document.getElementById("stand").remove();
-        document.getElementById("container").innerHTML = "BLACKJACK! YOU WIN!" ;
-        revealCard();    
-        showReplayButton();
-    }
-    showResults();
+        remainingCards = remainingCards1;
+        //console.log(remainingCards);
+        var src = document.getElementById("mycards");
+        src.appendChild(img);
+        myCards.push(newCard);
+        calcValues(); 
+        if (myTotal>21){  //Checking Ace and updating your value
+            checkMyAce(); 
+            calcValues(); 
+            showMyResults()
+        } 
+        if (myTotal >21){
+            
+            
+            document.getElementById("container").innerHTML = "YOU LOOSE" ;
+            losses = losses + 1;
+            hit = false;
+            standAct = false;
+            showHisResults();
+            revealCard();
+        }
+        if (myTotal === 21){
+            revealCard();
+            botDecision();
+            showHisResults();
 
+            //document.getElementById("container").innerHTML = "BLACKJACK! YOU WIN!" ;
+            //wins = wins + 1;
+            deal = false;
+            hit = false;
+            standAct = false;
+            //revealCard();    
+            
+        }
+        showMyResults();
+        
+        showScore();
+        deal = false;
+    }
 }
 
 function revealCard(){
@@ -296,85 +361,151 @@ function revealCard(){
     showCard = true;
 
 }
+
 function stand(){
-    document.getElementById("draw").remove();
-    document.getElementById("stand").remove();
-    revealCard();
-    calcValues();
-    botDecision();   
+
+    if (standAct === true){    
+        revealCard();
+        calcValues();
+        showHisResults();
+        botDecision();   
+        showHisResults();
+        standAct = false;
+        hit = false;
+    }
     
 
 
 }
 
 function botDecision(){
-    while (hisTotal < myTotal && myTotal < 21){
+    while (hisTotal < myTotal && myTotal <= 21){
         let x = remainingCards.length;
         let num = Math.floor(Math.random()*(x));
         hisCard3 = remainingCards[num];
-        console.log(hisCard3);
+        //console.log(hisCard3);
         hisCards.push(hisCard3);
         let y = hisCards.length;
-        console.log(y);
+        //console.log(y);
         hisTotal = hisTotal + cardValues[hisCards[y-1]]; //y-1 instead of y to not get null value since index starts from 0
-        console.log(hisTotal)
+        //console.log(hisTotal)
         delete remainingCards[num];
         remainingCards = remainingCards.filter(el => {
             return el != null && el != '';
           });
     
-        //remainingCards = remainingCards1;
-        console.log(remainingCards);
+       
+        //console.log(remainingCards);
 
         var img = document.createElement("img");
         img.src = cardDatabase[hisCards[y-1]]; 
         var src = document.getElementById("hiscards");
         src.appendChild(img);
-        showResults();
-
+        showMyResults();
+        checkHisAce();
     }
+
+    
+    
     if (hisTotal > 21){
         document.getElementById("container").innerHTML = "YOU WIN" ;
+        wins = wins + 1;
     }
     if (myTotal < 21 && hisTotal > myTotal && hisTotal < 22){
         document.getElementById("container").innerHTML = "YOU LOOSE" ;
+        losses = losses + 1;
+        
     }
 
     if (myTotal === hisTotal){
         document.getElementById("container").innerHTML = "ITS A TIE" ;
+        draws = draws + 1;
     }
-showResults();
-showReplayButton();
+    deal = false;
+    showScore();
+    
    
 }
-function showResults() {
+function showMyResults() {
         calcValues();
-        console.log("Your Total is " + myTotal);
-        console.log("Opponent's Total is " + hisTotal);
-        document.getElementById("myresult").innerHTML = "Your Total is: " + myTotal;
+        //console.log("Your Total is " + myTotal);
+        
+        document.getElementById("myresult").innerHTML = "Your Total is : " + myTotal;
+        
+    }
+
+    function showHisResults() {
+        calcValues();
+        //console.log("Opponent's Total is " + hisTotal);
+        
+        document.getElementById("hisresult").innerHTML = "Opponent's Total is : " + hisTotal;
         if (showCard === true) {
             document.getElementById("hisresult").innerHTML = "Opponent's Total is : " + hisTotal;
         }
-    
+       
     }
 
 function replay() {
-    location.reload();
+    //location.reload();
+    remainingCards =[]; //remainingCards is always being updated when specific cards are drawn
+    showCard = false;
+    myCards = [];
+    myTotal = 0;
+    hisTotal = 0;
+    hisCards = [];
+    
+    cardValues["AH"] = 11;
+    cardValues["AC"]= 11;
+    cardValues["AS"] = 11;
+    cardValues["AD"] = 11;
+
+    deal = true;
+    hit = false;
+    standAct = false;
+    document.getElementById("hisresult").innerHTML = "" ;
+    document.getElementById("myresult").innerHTML = "" ;
+    document.getElementById("hiscards").innerHTML = "";
+    document.getElementById("mycards").innerHTML = "";
+    document.getElementById("container").innerHTML = "" ;
+       
+
+
 }
 
-function showReplayButton(){
-    var a = document.getElementById("replay"); //shows the Replay button
+function showScore(){
+
+    document.getElementById("wins").innerHTML = wins ;
+    document.getElementById("draws").innerHTML = draws ;
+    document.getElementById("losses").innerHTML = losses ;
+}
+
+
+/*
+function checkBJ(){ 
+    if (myTotal === 21){
+           
+        document.getElementById("container").innerHTML = "BLACKJACK! YOU WIN!" ;
+        wins = wins + 1;
+        hit = false;
+        standAct = false;
+        revealCard();    
+        
+    }
+    showMyResults();
+    showScore();
+}
+
+function showHideButton(x){    
+    var a = document.getElementById(x); 
 if (a.style.display === "none") {
     a.style.display = "block";
 } else {
   a.style.display = "none";
   
-}
+    }
 }
 
-dealCards();
-showResults();
-
+*/
 
 
   

@@ -1,7 +1,8 @@
 html,body, h1 {
 
-    background-color: rgb(76, 243, 76);
-    font-weight: 500;
+    background-color: lightgreen;
+    text-align: center;
+    justify-content: center;
     color: black;
 }
 
@@ -11,13 +12,8 @@ img {
     padding: 20px;
 }
 
-.mycards {
 
-    border: 5px solid black;
-    background-color: red;
-    display: block;
-    
-}
+
 .cardsinfo{
     
     display: block;
@@ -27,12 +23,6 @@ img {
     font-weight: 500;
     color: black;
     
-}
-.hiscards {
-    border: 5px solid black;
-    background-color: blue;
-          
-   
 }
 
 
@@ -61,24 +51,58 @@ h2 {
     padding: 10px;
     font-size: 45px;
     text-align: center;
-    background-color: rgb(76, 243, 76);
+    background-color: lightgreen;
     
     
 }
 
-.buttonbox {
-    margin:0 auto;
-    width: 60%;
-    background-color: white;
-    padding: 10px;
-    font-size: 30px;
-    text-align: center;
-
-}
 
 .replay {
     margin: 0 auto;
     text-align: center;
     align-items: center;
+    font-size: 30px;
+}
+
+.game {
+    display: flex;
+    flex: column;
+}
+
+.mycards {
+
+    border: 5px solid black;
+    background-color: lightskyblue;
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+
+}
+
+.hiscards {
+    border: 5px solid black;
+    background-color: lightseagreen;
+    display: flex;  
+    flex-wrap: wrap;
+    width: 50%;
+    
+          
+   
+}
+
+.newcont {
+    
+    font-size: 30px;
+    text-align: center;
+    padding: 10px;
+    
+}
+
+.resultcontainer {
+
+    display: flex;
+}
+
+.finalresults {
     font-size: 30px;
 }
